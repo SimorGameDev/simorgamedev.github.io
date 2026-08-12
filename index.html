@@ -1,241 +1,187 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SimorGameDev — измотанный дэв</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimorGameDev</title>
     <style>
-        /* Общие сбросы и базовые стили */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            /* Стандартный системный шрифт Windows 7 */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background: #1a1a1a;
-            background-image: 
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 0.15 0 0 0 0 0.15 0 0 0 0 0.15 0 0 0 0.12 0"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.4"/></svg>'),
-                radial-gradient(circle at 30% 40%, #3a2c2c 0%, #1e1616 80%, #0d0a0a 100%);
-            background-attachment: fixed;
-            color: #c9b9b0;
-            font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', monospace;
-            line-height: 1.6;
-            padding: 20px;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        /* Виньетка */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.7) 100%);
-            z-index: 0;
+            /* Официальные обои Windows 7 (Harmony / Световые линии) */
+            background: #0d4a7a url('https://imgur.com') no-repeat center center fixed;
+            background-size: cover;
+            color: #1e395b;
+            line-height: 1.5;
+            padding: 30px 15px;
         }
 
         .container {
-            max-width: 960px;
+            max-width: 950px;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
         }
 
-        /* Общий стиль блоков – будто старая бумага */
-        .block {
-            background: rgba(30, 24, 22, 0.85);
-            border: 1px solid #4d3e38;
-            border-radius: 12px;
-            padding: 30px 28px;
-            margin-bottom: 28px;
-            box-shadow: 
-                0 8px 20px rgba(0,0,0,0.7),
-                inset 0 1px 0 rgba(255, 215, 180, 0.08),
-                inset 0 -2px 0 rgba(0,0,0,0.5);
-            backdrop-filter: blur(2px);
-            position: relative;
-            transition: border-color 0.2s;
+        /* Эффект оригинального стекла Aero Glass с синеватым отливом */
+        header, section {
+            background: linear-gradient(to bottom, rgba(162, 212, 247, 0.45) 0%, rgba(110, 178, 227, 0.35) 100%);
+            backdrop-filter: blur(15px) saturate(180%);
+            -webkit-backdrop-filter: blur(15px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 8px; /* В Win7 скругления были более строгими */
+            padding: 25px;
+            margin-bottom: 25px;
+            /* Свечение границ и тень окна */
+            box-shadow: 0 10px 30px rgba(0, 30, 60, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                        0 0 2px rgba(255, 255, 255, 0.8);
         }
 
-        .block:hover {
-            border-color: #7a5f4f;
-        }
-
-        /* Эффект потёртости – случайные царапины */
-        .block::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 2px,
-                rgba(0,0,0,0.02) 2px,
-                rgba(0,0,0,0.02) 4px
-            );
-            pointer-events: none;
-            border-radius: 8px;
-        }
-
-        /* Заголовок */
-        header.block {
+        header {
             text-align: center;
-            padding: 45px 20px 35px;
-            background: rgba(20, 16, 14, 0.9);
-            border-bottom: 3px solid #5a4237;
+            padding: 40px 20px;
         }
 
         header h1 {
             font-size: 2.6rem;
-            font-weight: 700;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: #dac5b4;
-            text-shadow: 0 2px 0 #2a1e18, 0 4px 8px rgba(0,0,0,0.8);
-            font-family: 'Courier New', monospace;
+            color: #0b335c;
+            font-weight: 600;
+            /* Размытая тень текста, как на рабочем столе Windows 7 */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 5px rgba(255, 255, 255, 0.9);
         }
 
         header h1 span {
-            color: #a08472;
-            font-weight: 300;
+            color: #1a751a;
         }
 
         header p {
-            font-size: 1.1rem;
-            color: #a58d7d;
-            margin-top: 10px;
-            letter-spacing: 1px;
-            border-top: 1px dashed #4d3e38;
-            padding-top: 14px;
-            display: inline-block;
+            font-size: 1.15rem;
+            color: #1a426a;
+            margin-top: 5px;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
         }
 
-        /* Заголовки секций */
-        .block h2 {
-            font-size: 1.7rem;
-            color: #cbb3a0;
+        section h2 {
+            font-size: 1.4rem;
+            color: #042447;
             margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            border-left: 6px solid #7a5f4f;
-            padding-left: 16px;
-            font-weight: 400;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+            padding-bottom: 8px;
         }
 
-        /* Сетка игр */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            gap: 25px;
         }
 
+        /* Карточка папки/приложения Windows */
         .game-card {
-            background: rgba(26, 20, 18, 0.7);
-            border: 1px solid #4a3a32;
-            border-radius: 14px;
-            padding: 22px 20px 25px;
-            box-shadow: inset 0 1px 0 rgba(255,215,180,0.05), 0 6px 12px rgba(0,0,0,0.6);
-            transition: all 0.25s ease;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid #a1b9d6;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
             display: flex;
             flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .game-card:hover {
-            border-color: #876b58;
-            background: rgba(40, 30, 26, 0.8);
-            transform: translateY(-3px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.8), inset 0 0 20px rgba(100, 70, 50, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 60, 120, 0.2);
+            border-color: #5593db;
+            background: rgba(255, 255, 255, 0.85);
         }
 
-        .game-card h3 {
-            font-size: 1.5rem;
-            color: #dcc6b5;
-            font-weight: 400;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-            text-shadow: 0 2px 4px black;
+        /* Контейнер для вашего скриншота или арта */
+        .game-img-container {
+            width: 100%;
+            height: 160px;
+            background-color: #ccdbe8;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #b8cfe5;
         }
 
-        .game-status {
-            font-size: 0.75rem;
-            color: #b8957a;
-            background: #2a1e18;
-            display: inline-block;
-            padding: 2px 14px;
-            border-radius: 30px;
-            margin-bottom: 14px;
-            letter-spacing: 1px;
-            border: 1px solid #4d3e38;
-            text-transform: uppercase;
+        .game-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .game-card p {
+        .game-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .game-info h3 {
+            color: #0b335c;
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+
+        .game-info p {
             font-size: 0.95rem;
-            color: #b09a8a;
+            color: #334a61;
             margin-bottom: 20px;
             flex-grow: 1;
-            line-height: 1.6;
         }
 
         .btn-group {
             display: flex;
-            gap: 12px;
-            margin-top: auto;
+            gap: 10px;
         }
 
+        /* Трёхмерные стеклянные кнопки с эффектом глянца при наведении */
         .btn {
             flex: 1;
             text-align: center;
-            padding: 12px 10px;
-            border-radius: 40px;
+            padding: 10px;
+            border-radius: 3px;
             text-decoration: none;
-            font-weight: 700;
+            font-weight: bold;
             font-size: 0.85rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: all 0.2s;
-            border: 1px solid #4a3a32;
-            background: #2e241f;
-            color: #c5b0a0;
-            box-shadow: inset 0 -3px 0 #1a1411, 0 4px 8px rgba(0,0,0,0.5);
-            cursor: pointer;
+            transition: all 0.15s;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 1px 2px rgba(0,0,0,0.1);
         }
 
-        .btn:hover {
-            background: #3f3029;
-            border-color: #7a5f4f;
-            color: #eee0d2;
-            box-shadow: inset 0 -2px 0 #2a1e18, 0 6px 12px rgba(0,0,0,0.6);
-            transform: scale(1.02);
+        /* Родная синяя системная кнопка Windows 7 */
+        .btn-primary {
+            background: linear-gradient(to bottom, #cedff2 0%, #b4d1ed 12%, #629cd6 50%, #4b89ca 51%, #417ebc 100%);
+            color: #0e2742;
+            border: 1px solid #3c6e9f;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.4);
         }
 
-        .btn:active {
-            transform: scale(0.97);
-            box-shadow: inset 0 2px 0 #1a1411;
+        .btn-primary:hover {
+            background: linear-gradient(to bottom, #e3effa 0%, #cae1f5 12%, #7cb0e3 50%, #5b99db 51%, #4e8ccc 100%);
+            border-color: #467cb0;
         }
 
-        .btn-download {
-            background: #3d2c24;
-            border-color: #6b5142;
-            color: #e6d3c2;
-            text-shadow: 0 1px 2px black;
+        /* Серая стандартная кнопка */
+        .btn-secondary {
+            background: linear-gradient(to bottom, #f2f2f2 0%, #ebebeb 50%, #dddddd 51%, #cfcfcf 100%);
+            color: #333333;
+            border: 1px solid #a3a3a3;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.6);
         }
 
-        .btn-download:hover {
-            background: #5a4136;
-            border-color: #9a7a64;
+        .btn-secondary:hover {
+            background: linear-gradient(to bottom, #f8f8f8 0%, #f0f0f0 50%, #e5e5e5 51%, #dadada 100%);
+            border-color: #8c8c8c;
         }
 
-        /* Контакты */
         .contacts-list {
             display: flex;
             flex-direction: column;
@@ -243,118 +189,90 @@
         }
 
         .contacts-list p {
-            font-size: 1rem;
-            color: #b8a392;
-            border-bottom: 1px dotted #3d3028;
-            padding-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
+            font-weight: 500;
         }
 
         .contacts-list a {
-            color: #d6bca8;
+            color: #0e549c;
             text-decoration: none;
-            border-bottom: 1px dashed #5a4237;
-            transition: color 0.2s, border-color 0.2s;
+            font-weight: bold;
         }
 
         .contacts-list a:hover {
-            color: #f0ded0;
-            border-bottom: 1px solid #a08472;
+            text-decoration: underline;
         }
 
-        /* Футер */
         footer {
             text-align: center;
-            padding: 20px 0 10px;
-            font-size: 0.8rem;
-            color: #6d5b4e;
-            border-top: 1px solid #3d3028;
-            margin-top: 10px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        /* Адаптив */
-        @media (max-width: 650px) {
-            body { padding: 12px; }
-            .block { padding: 20px; }
-            header h1 { font-size: 2rem; }
-            .game-card { padding: 18px; }
-        }
-
-        /* Дополнительная текстура зерна поверх всего */
-        .grain {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.08;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="5" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.3 0"/></filter><rect width="100%" height="100%" filter="url(%23grain)"/></svg>');
-            background-repeat: repeat;
+            padding: 10px;
+            font-size: 0.85rem;
+            color: #d1e6f7;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <!-- Слой зернистости -->
-    <div class="grain"></div>
-
     <div class="container">
-
-        <!-- Шапка -->
-        <header class="block">
+        <header>
             <h1><span>Simor</span>GameDev</h1>
-            <p>прототипы, билды и усталость</p>
+            <p>Делаю игры, делюсь прототипами и билдами</p>
         </header>
 
-        <!-- Игры -->
-        <section id="games" class="block">
-            <h2>🎮 текущие проекты</h2>
+        <section id="games">
+            <h2>Мои проекты</h2>
             <div class="games-grid">
-
+                <!-- Карточка игры 1 -->
                 <div class="game-card">
-                    <h3>Проект Один</h3>
-                    <div class="game-status">⏳ в разработке</div>
-                    <p>Мрачный платформер с элементами выживания. Тьма сгущается, а ресурсы на исходе. Билд доступен для тестирования.</p>
-                    <div class="btn-group">
-                        <a href="#" class="btn btn-download" target="_blank">⬇ Скачать .exe</a>
+                    <div class="game-img-container">
+                        <!-- Вставьте ссылку на фото игры вместо ССЫЛКА_НА_КАРТИНКУ_1 -->
+                        <img class="game-img" src="ССЫЛКА_НА_КАРТИНКУ_1" alt="Скриншот игры 1" onerror="this.src='https://imgur.com'">
+                    </div>
+                    <div class="game-info">
+                        <h3>Проект Один</h3>
+                        <p>Здесь будет описание моей первой игры. Напишу, про что она, какой тут жанр и почему в неё стоит поиграть.</p>
+                        <div class="btn-group">
+                            <a href="#" class="btn btn-primary" target="_blank">Запустить</a>
+                            <a href="#" class="btn btn-secondary" target="_blank">Скачать</a>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Карточка игры 2 -->
                 <div class="game-card">
-                    <h3>Проект Два</h3>
-                    <div class="game-status">🐞 альфа-тест</div>
-                    <p>Тактическая RPG в постапокалиптическом сеттинге. Управляйте отрядом, принимайте тяжёлые решения. Очень сыро, но уже играбельно.</p>
-                    <div class="btn-group">
-                        <a href="#" class="btn btn-download" target="_blank">⬇ Скачать .zip</a>
+                    <div class="game-img-container">
+                        <!-- Вставьте ссылку на фото игры вместо ССЫЛКА_НА_КАРТИНКУ_2 -->
+                        <img class="game-img" src="ССЫЛКА_НА_КАРТИНКУ_2" alt="Скриншот игры 2" onerror="this.src='https://imgur.com'">
+                    </div>
+                    <div class="game-info">
+                        <h3>Проект Два</h3>
+                        <p>А тут будет вторая игра или какой-нибудь интересный играбельный прототип, который я тестировал.</p>
+                        <div class="btn-group">
+                            <a href="#" class="btn btn-primary" target="_blank">Запустить</a>
+                            <a href="#" class="btn btn-secondary" target="_blank">Скачать</a>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
-        <!-- Контакты -->
-        <section id="contact" class="block">
-            <h2>✉️ связаться</h2>
+        <section id="contact">
+            <h2>Связь со мной</h2>
             <div class="contacts-list">
-                <p>📱 Telegram: <a href="#" target="_blank">@Silent1212124gmdv</a></p>
-                <p>🌐 Itch.io: <a href="https://simorgamedev.itch.io/" target="_blank">simorgamedev.itch.io</a></p>
-                <p>📧 Почта: <a href="mailto:arturkomogorov736@gmail.com" onclick="this.href=this.href.replace('@','&#64;').replace(/\./g,'&#46;')">arturkomogorov736@gmail.com</a></p>
+                <p>Telegram: <a href="#" target="_blank">@ваш_логин</a></p>
+                <p>Профиль на Itch.io: <a href="https://itch.io" target="_blank">simorgamedev.itch.io</a></p>
+                <p>Почта: <a href="mailto:pochta@mail.com">pochta@mail.com</a></p>
             </div>
         </section>
 
-        <!-- Футер -->
         <footer>
-            <p>&copy; 2026 SimorGameDev — все права защищены, а силы на исходе</p>
+            <p>&copy; 2026 SimorGameDev.</p>
         </footer>
-
     </div>
+
+</body>
+</html>
 
 </body>
 </html>
