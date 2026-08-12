@@ -1,290 +1,360 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SimorGameDev</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SimorGameDev — измотанный дэв</title>
     <style>
-        :root {
-            --accent-blue: #00a8ff;
-            --accent-green: #39e339;
-            --glass-bg: rgba(255, 255, 255, 0.45);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --text-dark: #0f2d4a;
-            --text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-        }
-
+        /* Общие сбросы и базовые стили */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            box-sizing: border-box;
         }
 
         body {
-            /* Фирменный Frutiger Aero градиент: вода, трава и солнце */
-            background: radial-gradient(circle at 80% 20%, #e0f4ff 0%, #7bc6ff 40%, #a3e873 90%);
+            background: #1a1a1a;
+            background-image: 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 0.15 0 0 0 0 0.15 0 0 0 0 0.15 0 0 0 0.12 0"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.4"/></svg>'),
+                radial-gradient(circle at 30% 40%, #3a2c2c 0%, #1e1616 80%, #0d0a0a 100%);
             background-attachment: fixed;
-            color: var(--text-dark);
-            line-height: 1.5;
-            padding: 25px;
+            color: #c9b9b0;
+            font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', monospace;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
             position: relative;
-            overflow-x: hidden;
         }
 
-        /* Декоративные глянцевые пузыри на заднем фоне */
-        body::before, body::after {
+        /* Виньетка */
+        body::after {
             content: '';
             position: fixed;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%);
-            border: 1px solid rgba(255,255,255,0.4);
-            z-index: -1;
-            backdrop-filter: blur(2px);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.7) 100%);
+            z-index: 0;
         }
-        body::before { width: 150px; height: 150px; top: 15%; left: 5%; }
-        body::after { width: 80px; height: 80px; bottom: 20%; right: 8%; }
 
         .container {
-            max-width: 1000px;
+            max-width: 960px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Эффект Aero Glass (Стекло Windows Vista) */
-        header, section {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px) saturate(160%);
-            -webkit-backdrop-filter: blur(12px) saturate(160%);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 32px rgba(31, 135, 219, 0.15), 
-                        inset 0 1px 2px rgba(255, 255, 255, 0.6);
+        /* Общий стиль блоков – будто старая бумага */
+        .block {
+            background: rgba(30, 24, 22, 0.85);
+            border: 1px solid #4d3e38;
+            border-radius: 12px;
+            padding: 30px 28px;
+            margin-bottom: 28px;
+            box-shadow: 
+                0 8px 20px rgba(0,0,0,0.7),
+                inset 0 1px 0 rgba(255, 215, 180, 0.08),
+                inset 0 -2px 0 rgba(0,0,0,0.5);
+            backdrop-filter: blur(2px);
+            position: relative;
+            transition: border-color 0.2s;
         }
 
-        header {
+        .block:hover {
+            border-color: #7a5f4f;
+        }
+
+        /* Эффект потёртости – случайные царапины */
+        .block::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.02) 2px,
+                rgba(0,0,0,0.02) 4px
+            );
+            pointer-events: none;
+            border-radius: 8px;
+        }
+
+        /* Заголовок */
+        header.block {
             text-align: center;
-            padding: 50px 20px;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.6), rgba(255,255,255,0.3));
+            padding: 45px 20px 35px;
+            background: rgba(20, 16, 14, 0.9);
+            border-bottom: 3px solid #5a4237;
         }
 
         header h1 {
-            font-size: 2.8rem;
-            color: #0066cc;
+            font-size: 2.6rem;
             font-weight: 700;
-            text-shadow: 0 2px 4px rgba(255,255,255,0.9), 0 0 10px rgba(0,168,255,0.3);
-            letter-spacing: -0.5px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #dac5b4;
+            text-shadow: 0 2px 0 #2a1e18, 0 4px 8px rgba(0,0,0,0.8);
+            font-family: 'Courier New', monospace;
         }
 
         header h1 span {
-            color: #2bb32b;
+            color: #a08472;
+            font-weight: 300;
         }
 
         header p {
-            font-size: 1.2rem;
-            color: #124e78;
-            margin-top: 5px;
-            font-weight: 500;
-            text-shadow: var(--text-shadow);
+            font-size: 1.1rem;
+            color: #a58d7d;
+            margin-top: 10px;
+            letter-spacing: 1px;
+            border-top: 1px dashed #4d3e38;
+            padding-top: 14px;
+            display: inline-block;
         }
 
-        section h2 {
-            font-size: 1.6rem;
-            color: #0052a3;
+        /* Заголовки секций */
+        .block h2 {
+            font-size: 1.7rem;
+            color: #cbb3a0;
             margin-bottom: 20px;
-            text-shadow: var(--text-shadow);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-left: 6px solid #7a5f4f;
+            padding-left: 16px;
+            font-weight: 400;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
 
-        /* Свежие глянцевые теги навыков */
-        .skills-list {
-            list-style: none;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .skills-list li {
-            background: linear-gradient(to bottom, #ffffff 0%, #e1f3ff 100%);
-            color: #0066cc;
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            border: 1px solid rgba(0, 168, 255, 0.3);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
+        /* Сетка игр */
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
         }
 
-        /* Глянцевые карточки продуктов */
         .game-card {
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            background: rgba(26, 20, 18, 0.7);
+            border: 1px solid #4a3a32;
+            border-radius: 14px;
+            padding: 22px 20px 25px;
+            box-shadow: inset 0 1px 0 rgba(255,215,180,0.05), 0 6px 12px rgba(0,0,0,0.6);
+            transition: all 0.25s ease;
             display: flex;
             flex-direction: column;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
         .game-card:hover {
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: 0 12px 25px rgba(0, 102, 204, 0.15);
-            background: rgba(255, 255, 255, 0.65);
+            border-color: #876b58;
+            background: rgba(40, 30, 26, 0.8);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.8), inset 0 0 20px rgba(100, 70, 50, 0.1);
         }
 
-        .game-info {
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
+        .game-card h3 {
+            font-size: 1.5rem;
+            color: #dcc6b5;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            text-shadow: 0 2px 4px black;
         }
 
-        .game-info h3 {
-            color: #0066cc;
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-            text-shadow: var(--text-shadow);
+        .game-status {
+            font-size: 0.75rem;
+            color: #b8957a;
+            background: #2a1e18;
+            display: inline-block;
+            padding: 2px 14px;
+            border-radius: 30px;
+            margin-bottom: 14px;
+            letter-spacing: 1px;
+            border: 1px solid #4d3e38;
+            text-transform: uppercase;
         }
 
-        .game-info p {
+        .game-card p {
             font-size: 0.95rem;
-            color: #244464;
+            color: #b09a8a;
             margin-bottom: 20px;
             flex-grow: 1;
+            line-height: 1.6;
         }
 
         .btn-group {
             display: flex;
             gap: 12px;
+            margin-top: auto;
         }
 
-        /* Объемные скевоморфные кнопки с бликами */
         .btn {
             flex: 1;
             text-align: center;
-            padding: 12px;
-            border-radius: 50px;
+            padding: 12px 10px;
+            border-radius: 40px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1), 
-                        inset 0 1px 0 rgba(255,255,255,0.5), 
-                        inset 0 -2px 0 rgba(0,0,0,0.1);
-            transition: filter 0.15s, transform 0.1s;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.2s;
+            border: 1px solid #4a3a32;
+            background: #2e241f;
+            color: #c5b0a0;
+            box-shadow: inset 0 -3px 0 #1a1411, 0 4px 8px rgba(0,0,0,0.5);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #3f3029;
+            border-color: #7a5f4f;
+            color: #eee0d2;
+            box-shadow: inset 0 -2px 0 #2a1e18, 0 6px 12px rgba(0,0,0,0.6);
+            transform: scale(1.02);
         }
 
         .btn:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
+            box-shadow: inset 0 2px 0 #1a1411;
         }
 
-        /* Глянцевая синяя кнопка (Аква/Океан) */
-        .btn-primary {
-            background: linear-gradient(to bottom, #52c4ff 0%, #0088cc 50%, #006699 100%);
-            color: white;
-            text-shadow: 0 -1px 1px rgba(0,0,0,0.3);
-            border: 1px solid #005580;
+        .btn-download {
+            background: #3d2c24;
+            border-color: #6b5142;
+            color: #e6d3c2;
+            text-shadow: 0 1px 2px black;
         }
 
-        .btn-primary:hover {
-            filter: brightness(1.08);
+        .btn-download:hover {
+            background: #5a4136;
+            border-color: #9a7a64;
         }
 
-        /* Глянцевая зеленая кнопка (Эко/Трава) */
-        .btn-secondary {
-            background: linear-gradient(to bottom, #96e642 0%, #6dbd1a 50%, #4c8a0b 100%);
-            color: white;
-            text-shadow: 0 -1px 1px rgba(0,0,0,0.3);
-            border: 1px solid #3b6b08;
-        }
-
-        .btn-secondary:hover {
-            filter: brightness(1.08);
-        }
-
+        /* Контакты */
         .contacts-list {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
         .contacts-list p {
-            font-weight: 500;
+            font-size: 1rem;
+            color: #b8a392;
+            border-bottom: 1px dotted #3d3028;
+            padding-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .contacts-list a {
-            color: #0066cc;
+            color: #d6bca8;
             text-decoration: none;
-            font-weight: 700;
+            border-bottom: 1px dashed #5a4237;
+            transition: color 0.2s, border-color 0.2s;
         }
 
         .contacts-list a:hover {
-            text-decoration: underline;
-            color: #004488;
+            color: #f0ded0;
+            border-bottom: 1px solid #a08472;
         }
 
+        /* Футер */
         footer {
             text-align: center;
-            padding: 20px;
-            font-size: 0.9rem;
-            color: #4a6b82;
-            text-shadow: var(--text-shadow);
-            font-weight: 500;
+            padding: 20px 0 10px;
+            font-size: 0.8rem;
+            color: #6d5b4e;
+            border-top: 1px solid #3d3028;
+            margin-top: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Адаптив */
+        @media (max-width: 650px) {
+            body { padding: 12px; }
+            .block { padding: 20px; }
+            header h1 { font-size: 2rem; }
+            .game-card { padding: 18px; }
+        }
+
+        /* Дополнительная текстура зерна поверх всего */
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.08;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="5" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.3 0"/></filter><rect width="100%" height="100%" filter="url(%23grain)"/></svg>');
+            background-repeat: repeat;
         }
     </style>
 </head>
 <body>
 
+    <!-- Слой зернистости -->
+    <div class="grain"></div>
+
     <div class="container">
-        <header>
-            <h1><span>Simor</span>GameDev 💧</h1>
-            <p>Портфолио инди-разработчика игр</p>
+
+        <!-- Шапка -->
+        <header class="block">
+            <h1><span>Simor</span>GameDev</h1>
+            <p>прототипы, билды и усталость</p>
         </header>
 
-        <section id="about">
-            <h2>🌱 Обо мне</h2>
-            <p style="margin-bottom: 20px; font-size: 1.05rem;">Привет! Я создаю яркие и увлекательные игровые проекты. Здесь вы можете найти мои актуальные игры, интерактивные прототипы и рабочие сборки.</p>
-            <h3 style="color: #0052a3; margin-bottom: 12px; font-size: 1.1rem; text-shadow: var(--text-shadow);">Мои технологии:</h3>
-            <ul class="skills-list">
-                <li>💿 Разработка игр (Game Design)</li>
-                <li>🤖 ИИ Ассистент кодинга</li>
-                <li>🗺️ Проектирование уровней</li>
-                <li>🧪 Тестирование механик</li>
-            </ul>
-        </section>
-
-        <section id="games">
-            <h2>🎮 Мои проекты</h2>
+        <!-- Игры -->
+        <section id="games" class="block">
+            <h2>🎮 текущие проекты</h2>
             <div class="games-grid">
-                <!-- Карточка игры 1 -->
+
                 <div class="game-card">
-                    <div class="game-info">
-                        <h3>Black Volga </h3>
-                        <p>"The Black Volga" is an old Soviet urban legend about a mysterious car that abducts people and subjects them to horrific fates.
-
-You play as a man whose deeds were so heinous that they gave rise to this very legend. Before you died, you managed to repent for your sins; the Almighty showed mercy and granted you a second chance.
-
-You find yourself in Purgatory, where the only thing you can do is drive without stopping.
-
-The game offers a short but engaging experience; it is merely a prototype, so not all of the protagonist's torments have been implemented yet.</p>
-                        <div class="btn-group">
-                            <a href="ССЫЛКА_НА_БРАУЗЕРНУЮ_ИГРУ_1" class="btn btn-primary" target="_blank">Запустить ⚡</a>
-                            <a href="ССЫЛКА_НА_СКАЧИВАНИЕ_БИЛДА_1" class="btn btn-secondary" target="_blank">Скачать 💾</a>
-                        </div>
+                    <h3>Проект Один</h3>
+                    <div class="game-status">⏳ в разработке</div>
+                    <p>Мрачный платформер с элементами выживания. Тьма сгущается, а ресурсы на исходе. Билд доступен для тестирования.</p>
+                    <div class="btn-group">
+                        <a href="#" class="btn btn-download" target="_blank">⬇ Скачать .exe</a>
                     </div>
                 </div>
 
+                <div class="game-card">
+                    <h3>Проект Два</h3>
+                    <div class="game-status">🐞 альфа-тест</div>
+                    <p>Тактическая RPG в постапокалиптическом сеттинге. Управляйте отрядом, принимайте тяжёлые решения. Очень сыро, но уже играбельно.</p>
+                    <div class="btn-group">
+                        <a href="#" class="btn btn-download" target="_blank">⬇ Скачать .zip</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Контакты -->
+        <section id="contact" class="block">
+            <h2>✉️ связаться</h2>
             <div class="contacts-list">
-                <p>📱 Telegram: <a href="https://t.me" target="_blank">https://t.me/xolst_png</a></p>
+                <p>📱 Telegram: <a href="#" target="_blank">@Silent1212124gmdv</a></p>
+                <p>🌐 Itch.io: <a href="https://simorgamedev.itch.io/" target="_blank">simorgamedev.itch.io</a></p>
+                <p>📧 Почта: <a href="mailto:arturkomogorov736@gmail.com" onclick="this.href=this.href.replace('@','&#64;').replace(/\./g,'&#46;')">arturkomogorov736@gmail.com</a></p>
+            </div>
+        </section>
+
+        <!-- Футер -->
+        <footer>
+            <p>&copy; 2026 SimorGameDev — все права защищены, а силы на исходе</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
