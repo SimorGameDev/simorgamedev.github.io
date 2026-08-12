@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimorGameDev</title>
+    <style>
+        :root {
+            --accent-blue: #00a8ff;
+            --accent-green: #39e339;
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --text-dark: #0f2d4a;
+            --text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            /* Фирменный Frutiger Aero градиент: вода, трава и солнце */
+            background: radial-gradient(circle at 80% 20%, #e0f4ff 0%, #7bc6ff 40%, #a3e873 90%);
+            background-attachment: fixed;
+            color: var(--text-dark);
+            line-height: 1.5;
+            padding: 25px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Декоративные глянцевые пузыри на заднем фоне */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%);
+            border: 1px solid rgba(255,255,255,0.4);
+            z-index: -1;
+            backdrop-filter: blur(2px);
+        }
+        body::before { width: 150px; height: 150px; top: 15%; left: 5%; }
+        body::after { width: 80px; height: 80px; bottom: 20%; right: 8%; }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Эффект Aero Glass (Стекло Windows Vista) */
+        header, section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px) saturate(160%);
+            -webkit-backdrop-filter: blur(12px) saturate(160%);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px rgba(31, 135, 219, 0.15), 
+                        inset 0 1px 2px rgba(255, 255, 255, 0.6);
+        }
+
+        header {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.6), rgba(255,255,255,0.3));
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            color: #0066cc;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(255,255,255,0.9), 0 0 10px rgba(0,168,255,0.3);
+            letter-spacing: -0.5px;
+        }
+
+        header h1 span {
+            color: #2bb32b;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #124e78;
+            margin-top: 5px;
+            font-weight: 500;
+            text-shadow: var(--text-shadow);
+        }
+
+        section h2 {
+            font-size: 1.6rem;
+            color: #0052a3;
+            margin-bottom: 20px;
+            text-shadow: var(--text-shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Свежие глянцевые теги навыков */
+        .skills-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .skills-list li {
+            background: linear-gradient(to bottom, #ffffff 0%, #e1f3ff 100%);
+            color: #0066cc;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: 1px solid rgba(0, 168, 255, 0.3);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        /* Глянцевые карточки продуктов */
+        .game-card {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 12px 25px rgba(0, 102, 204, 0.15);
+            background: rgba(255, 255, 255, 0.65);
+        }
+
+        .game-info {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .game-info h3 {
+            color: #0066cc;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            text-shadow: var(--text-shadow);
+        }
+
+        .game-info p {
+            font-size: 0.95rem;
+            color: #244464;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Объемные скевоморфные кнопки с бликами */
+        .btn {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1), 
+                        inset 0 1px 0 rgba(255,255,255,0.5), 
+                        inset 0 -2px 0 rgba(0,0,0,0.1);
+            transition: filter 0.15s, transform 0.1s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Глянцевая синяя кнопка (Аква/Океан) */
+        .btn-primary {
+            background: linear-gradient(to bottom, #52c4ff 0%, #0088cc 50%, #006699 100%);
+            color: white;
+            text-shadow: 0 -1px 1px rgba(0,0,0,0.3);
+            border: 1px solid #005580;
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.08);
+        }
+
+        /* Глянцевая зеленая кнопка (Эко/Трава) */
+        .btn-secondary {
+            background: linear-gradient(to bottom, #96e642 0%, #6dbd1a 50%, #4c8a0b 100%);
+            color: white;
+            text-shadow: 0 -1px 1px rgba(0,0,0,0.3);
+            border: 1px solid #3b6b08;
+        }
+
+        .btn-secondary:hover {
+            filter: brightness(1.08);
+        }
+
+        .contacts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contacts-list p {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contacts-list a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .contacts-list a:hover {
+            text-decoration: underline;
+            color: #004488;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #4a6b82;
+            text-shadow: var(--text-shadow);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1><span>Simor</span>GameDev 💧</h1>
+            <p>Портфолио инди-разработчика игр</p>
+        </header>
+
+        <section id="about">
+            <h2>🌱 Обо мне</h2>
+            <p style="margin-bottom: 20px; font-size: 1.05rem;">Привет! Я создаю яркие и увлекательные игровые проекты. Здесь вы можете найти мои актуальные игры, интерактивные прототипы и рабочие сборки.</p>
+            <h3 style="color: #0052a3; margin-bottom: 12px; font-size: 1.1rem; text-shadow: var(--text-shadow);">Мои технологии:</h3>
+            <ul class="skills-list">
+                <li>💿 Разработка игр (Game Design)</li>
+                <li>🤖 ИИ Ассистент кодинга</li>
+                <li>🗺️ Проектирование уровней</li>
+                <li>🧪 Тестирование механик</li>
+            </ul>
+        </section>
+
+        <section id="games">
+            <h2>🎮 Мои проекты</h2>
+            <div class="games-grid">
+                <!-- Карточка игры 1 -->
+                <div class="game-card">
+                    <div class="game-info">
+                        <h3>Black Volga </h3>
+                        <p>"The Black Volga" is an old Soviet urban legend about a mysterious car that abducts people and subjects them to horrific fates.
+
+You play as a man whose deeds were so heinous that they gave rise to this very legend. Before you died, you managed to repent for your sins; the Almighty showed mercy and granted you a second chance.
+
+You find yourself in Purgatory, where the only thing you can do is drive without stopping.
+
+The game offers a short but engaging experience; it is merely a prototype, so not all of the protagonist's torments have been implemented yet.</p>
+                        <div class="btn-group">
+                            <a href="ССЫЛКА_НА_БРАУЗЕРНУЮ_ИГРУ_1" class="btn btn-primary" target="_blank">Запустить ⚡</a>
+                            <a href="ССЫЛКА_НА_СКАЧИВАНИЕ_БИЛДА_1" class="btn btn-secondary" target="_blank">Скачать 💾</a>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="contacts-list">
+                <p>📱 Telegram: <a href="https://t.me" target="_blank">https://t.me/xolst_png</a></p>
